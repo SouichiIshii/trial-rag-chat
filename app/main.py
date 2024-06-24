@@ -32,6 +32,21 @@ def ai_chat_page():
 def document_registration_page():
     st.title("資料登録")
 
+    target_file = st.file_uploader("PDFファイルを選択してください。", type=["pdf"])
+    if target_file is not None:
+        files = {
+            "file": (target_file.name, target_file, "application/pdf")
+        }
+        if st.button("選択したファイルを登録する"):
+            response = requests.post(
+                url="http://localhost:8000/upload/",
+                files=files
+            )
+            if response.status_code == 200:
+                st.success("登録完了")
+            else:
+                st.error("登録失敗")
+
 def document_review_page():
     st.title("資料確認")
 
