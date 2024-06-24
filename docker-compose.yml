@@ -1,14 +1,19 @@
 version: "3.8"
 
 services:
-  opensearch:
-    image: opensearchproject/opensearch:2.14.0
-    container_name: opensearch
+  rc-opensearch:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    image: rc-opensearch:1.0
+    container_name: rc-opensearch
     environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-node
       - discovery.type=single-node
       - bootstrap.memory_lock=true
+      - plugins.security.disabled=true
       - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
-      - opensearch.security.disabled=true
     ulimits:
       memlock:
         soft: -1
@@ -19,12 +24,8 @@ services:
     networks:
       - opensearch-net
     volumes:
-      - opensearch-data:/usr/share/opensearch/data
+      - ./docker/opensearch-data:/usr/share/opensearch/data
 
 networks:
   opensearch-net:
     driver: bridge
-
-volumes:
-  opensearch-data:
-    driver: local
