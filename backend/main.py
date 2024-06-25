@@ -5,7 +5,6 @@ from datetime import datetime
 import os 
 import shutil
 import uuid
-import time
 
 app = FastAPI()
 
@@ -39,6 +38,5 @@ async def register_pdf_as_document(file: UploadFile = File(...)):
     )
 
     extract_and_index_pdf(pdf_path=tmp_path, opensearch_client=client, index_name="upload_test_index")
-    time.sleep(1)
     os.remove(tmp_path)
     return {"filename": file.filename}
