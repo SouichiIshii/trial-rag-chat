@@ -163,3 +163,7 @@ cython_debug/
 
 # docker volumes
 docker/opensearch-data
+
+# temp files
+backend/temp/*
+!backend/temp/.keep
