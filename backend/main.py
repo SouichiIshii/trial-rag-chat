@@ -27,7 +27,7 @@ def extract_and_index_pdf(pdf_path, opensearch_client: OpenSearch, index_name):
     os.remove(pdf_path)
 
 @app.post("/upload/")
-async def create_upload_file(file: UploadFile = File(...)):
+async def register_pdf_as_document(file: UploadFile = File(...)):
     tmp_path = f"temp/{file.filename}"
     with open(tmp_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
