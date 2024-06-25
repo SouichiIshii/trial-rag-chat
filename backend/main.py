@@ -28,7 +28,7 @@ def extract_and_index_pdf(pdf_path: str, opensearch_client: OpenSearch, index_na
 
 @app.post("/upload/")
 async def register_pdf_as_document(file: UploadFile = File(...)):
-    tmp_path = f"temp/{file.filename}"
+    tmp_path = f"backend/temp/{file.filename}"
     with open(tmp_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
@@ -38,5 +38,5 @@ async def register_pdf_as_document(file: UploadFile = File(...)):
             verify_certs=False
         )
 
-        extract_and_index_pdf(pdf_path=tmp_path, opensearch_client=client)
+        extract_and_index_pdf(pdf_path=tmp_path, opensearch_client=client, index_name="upload_test_index")
         return {"filename": file.filename}
