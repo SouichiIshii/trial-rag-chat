@@ -43,7 +43,7 @@ def document_registration_page():
                 files=files
             )
             if response.status_code == 200:
-                st.success("登録完了")
+                st.success(f"{target_file.name}の登録完了")
             else:
                 st.error("登録失敗")
 
