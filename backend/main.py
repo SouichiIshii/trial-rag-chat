@@ -9,7 +9,7 @@ import uuid
 app = FastAPI()
 
 
-def extract_and_index_pdf(pdf_path, opensearch_client: OpenSearch, index_name):
+def extract_and_index_pdf(pdf_path: str, opensearch_client: OpenSearch, index_name):
     with open(pdf_path, "rb") as file:
         reader = PdfReader(file)
         document_id = uuid.uuid4()
