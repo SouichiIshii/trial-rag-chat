@@ -19,7 +19,7 @@ def extract_and_index_pdf(pdf_path: str, opensearch_client: OpenSearch, index_na
             document = {
                 "document_id": document_id,
                 "page_number": page_num,
-                "title": os.path.splitext(os.path.basename(pdf_path)),
+                "title": os.path.basename(pdf_path),
                 "registration_date": datetime.now().isoformat(),
                 "content": text_in_page
             }
