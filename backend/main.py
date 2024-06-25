@@ -5,6 +5,7 @@ from datetime import datetime
 import os 
 import shutil
 import uuid
+import time
 
 app = FastAPI()
 
@@ -24,7 +25,6 @@ def extract_and_index_pdf(pdf_path: str, opensearch_client: OpenSearch, index_na
                 "content": text_in_page
             }
             opensearch_client.index(index=index_name, body=document)
-    os.remove(pdf_path)
 
 @app.post("/upload/")
 async def register_pdf_as_document(file: UploadFile = File(...)):
@@ -32,11 +32,13 @@ async def register_pdf_as_document(file: UploadFile = File(...)):
     with open(tmp_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-        client = OpenSearch(
-            hosts=[{"host": "localhost", "port": 9200}],
-            use_ssl=False,
-            verify_certs=False
-        )
+    client = OpenSearch(
+        hosts=[{"host": "localhost", "port": 9200}],
+        use_ssl=False,
+        verify_certs=False
+    )
 
-        extract_and_index_pdf(pdf_path=tmp_path, opensearch_client=client, index_name="upload_test_index")
-        return {"filename": file.filename}
+    extract_and_index_pdf(pdf_path=tmp_path, opensearch_client=client, index_name="upload_test_index")
+    time.sleep(1)
+    os.remove(tmp_path)
+    return {"filename": file.filename}
