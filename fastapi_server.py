@@ -5,8 +5,8 @@ from datetime import datetime
 import os 
 import shutil
 import uuid
-from opensearch.fetch_all_documents import fetch_all_documents
-from opensearch.config import INDEX_NAME
+from backend.opensearch.fetch_all_documents import fetch_all_documents
+from config import INDEX_NAME
 
 app = FastAPI()
 
