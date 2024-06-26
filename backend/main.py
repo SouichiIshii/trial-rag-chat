@@ -5,6 +5,8 @@ from datetime import datetime
 import os 
 import shutil
 import uuid
+from opensearch.fetch_all_documents import fetch_all_documents
+
 
 app = FastAPI()
 
@@ -24,6 +26,22 @@ def extract_and_index_pdf(pdf_path: str, opensearch_client: OpenSearch, index_na
                 "content": text_in_page
             }
             opensearch_client.index(index=index_name, body=document)
+
+@app.get("/documents/")
+def get_unique_documents():
+    documents = fetch_all_documents(index_name="upload_test_index")
+
+    unique_docs = {}
+    for doc in documents:
+        source = doc["_source"]
+        title = source["title"]
+        if title not in unique_docs:
+            unique_docs[title] = {
+                "title": title,
+                "registration_date": source["registration_date"]
+            }
+
+    return list(unique_docs.values())
 
 @app.post("/upload/")
 async def register_pdf_as_document(file: UploadFile = File(...)):
