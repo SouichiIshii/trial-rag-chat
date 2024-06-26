@@ -23,7 +23,7 @@ def ai_chat_page():
     # ユーザ入力用のテキストボックス
     user_question = st.text_input("質問を入力してください。")
 
-    if st.button("送信"):
+    if st.button("AIに質問する"):
         # ここでチャットロジックを実装
         st.write(f"ユーザー: {user_question}")
 
