@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import pandas as pd
 
 def main():
     # ページ設定
@@ -50,6 +51,16 @@ def document_registration_page():
 def document_review_page():
     st.title("資料確認")
 
+    response = requests.get(url="http://localhost:8000/documents/")
+    documents = response.json()
+
+    if documents:
+        df = pd.DataFrame(documents)
+        df.index = df.index + 1
+        df.index.name = "No."
+        st.write(df)
+    else:
+        st.write("No files found.")
 
 if __name__ == "__main__":
     main()
