@@ -1,1 +1,0 @@
-INDEX_NAME = "trial_index"
