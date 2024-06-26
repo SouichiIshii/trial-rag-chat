@@ -1,5 +1,7 @@
 from opensearchpy import OpenSearch
 import pprint
+from config import INDEX_NAME
+
 
 def fetch_all_documents(index_name: str):
     client = OpenSearch(
@@ -37,6 +39,6 @@ def fetch_all_documents(index_name: str):
 
 
 if __name__ == "__main__":
-    documents = fetch_all_documents(index_name="upload_test_index")
+    documents = fetch_all_documents(index_name=INDEX_NAME)
     for doc in documents:
         pprint.pprint(doc)

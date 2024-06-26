@@ -1,4 +1,6 @@
 from opensearchpy import OpenSearch
+from config import INDEX_NAME
+
 
 def delete_index(index_name):
     client = OpenSearch(
@@ -14,4 +16,4 @@ def delete_index(index_name):
 
 
 if __name__ == "__main__":
-    delete_index("upload_test_index")
+    delete_index(index_name=INDEX_NAME)

@@ -1,6 +1,8 @@
 from opensearchpy import OpenSearch
 import json
 
+from config import INDEX_NAME
+
 
 def load_settings():
     with open('./backend/opensearch/settings.json', 'r') as f:
@@ -35,4 +37,4 @@ if __name__ == "__main__":
             verify_certs=False
     )
 
-    create_index(opensearch_client=client, index_name="upload_test_index")
+    create_index(opensearch_client=client, index_name=INDEX_NAME)

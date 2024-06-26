@@ -6,7 +6,7 @@ import os
 import shutil
 import uuid
 from opensearch.fetch_all_documents import fetch_all_documents
-
+from opensearch.config import INDEX_NAME
 
 app = FastAPI()
 
@@ -29,7 +29,7 @@ def extract_and_index_pdf(pdf_path: str, opensearch_client: OpenSearch, index_na
 
 @app.get("/documents/")
 def get_unique_documents():
-    documents = fetch_all_documents(index_name="upload_test_index")
+    documents = fetch_all_documents(index_name=INDEX_NAME)
 
     unique_docs = {}
     for doc in documents:
@@ -55,6 +55,6 @@ async def register_pdf_as_document(file: UploadFile = File(...)):
         verify_certs=False
     )
 
-    extract_and_index_pdf(pdf_path=tmp_path, opensearch_client=client, index_name="upload_test_index")
+    extract_and_index_pdf(pdf_path=tmp_path, opensearch_client=client, index_name=INDEX_NAME)
     os.remove(tmp_path)
     return {"filename": file.filename}
