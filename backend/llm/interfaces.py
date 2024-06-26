@@ -1,9 +1,5 @@
-from pydantic import BaseModel
+from schemas import Message
 
-
-class Message:
-    role: str
-    content: str
 
 class ChatModel:
     def call(self, messages: list[Message], **api_parameters) -> Message:

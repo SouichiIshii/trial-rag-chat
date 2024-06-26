@@ -5,11 +5,7 @@ from pydantic import BaseModel
 
 from interfaces import ChatModel
 from config import OPENAI_API_KEY, OPENAI_CHAT_ENDPOINT
-
-
-class Message:
-    role: str
-    content: str
+from schemas import Message
 
 class OpenAIChatModel(ChatModel):
     def __init__(self, model_type="gpt-3.5-turbo") -> None:
