@@ -1,6 +1,6 @@
 from opensearchpy import OpenSearch
 import pprint
-from config import INDEX_NAME
+from opensearch.config import INDEX_NAME
 
 
 def fetch_all_documents(index_name: str):
