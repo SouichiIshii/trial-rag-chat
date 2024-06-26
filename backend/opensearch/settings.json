@@ -4,9 +4,10 @@
         "number_of_replicas": 1,
         "analysis": {
             "analyzer": {
-                "default": {
+                "kuromoji_analyzer": {
                     "type": "custom",
-                    "tokenizer": "kuromoji_tokenizer"
+                    "tokenizer": "kuromoji_tokenizer",
+                    "filter": ["kuromoji_baseform", "cjk_width", "lowercase"]
                 }
             }
         }
