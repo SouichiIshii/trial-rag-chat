@@ -14,12 +14,12 @@ app = FastAPI()
 def extract_and_index_pdf(pdf_path: str, opensearch_client: OpenSearch, index_name):
     with open(pdf_path, "rb") as file:
         reader = PdfReader(file)
-        document_id = uuid.uuid4()
+        file_id = uuid.uuid4()
         for i, page in enumerate(reader.pages):
             page_num = i + 1
             text_in_page = page.extract_text() if page.extract_text() else ""
             document = {
-                "document_id": document_id,
+                "file_id": file_id,
                 "page_number": page_num,
                 "title": os.path.basename(pdf_path),
                 "registration_date": datetime.now().isoformat(),

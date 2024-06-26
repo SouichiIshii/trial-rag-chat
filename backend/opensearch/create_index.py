@@ -1,25 +1,20 @@
 from opensearchpy import OpenSearch
+import json
 
 
-def create_index(opensearch_client: OpenSearch, index_name: str, settings=None, mappings=None):
-    if settings is None:
-        settings = {
-            "index": {
-                "number_of_shards": 1,
-                "number_of_replicas": 1
-            }
-        }
+def load_settings():
+    with open('./backend/opensearch/settings.json', 'r') as f:
+        settings = json.load(f)
+    return settings
 
-    if mappings is None:
-        mappings = {
-            "properties": {
-                "document_id": {"type": "keyword"},
-                "page_number": {"type": "integer"},
-                "title": {"type": "text"},
-                "registration_date": {"type": "date"},
-                "content": {"type": "text"}
-            }
-        }
+def load_mappings():
+    with open('./backend/opensearch/mappings.json', 'r') as f:
+        mappings = json.load(f)
+    return mappings
+
+def create_index(opensearch_client: OpenSearch, index_name: str):
+    settings = load_settings()
+    mappings = load_mappings()
 
     body = {
         "settings": settings,
