@@ -6,7 +6,11 @@ import os
 import shutil
 import uuid
 from backend.opensearch.fetch_all_documents import fetch_all_documents
+from backend.opensearch.search_index import search_index
+from backend.llm.models import OpenAIChatModel
+from backend.llm.services import ChatService
 from config import INDEX_NAME
+from schemas import ChatRequest, Message
 
 app = FastAPI()
 
@@ -58,3 +62,16 @@ async def register_pdf_as_document(file: UploadFile = File(...)):
     extract_and_index_pdf(pdf_path=tmp_path, opensearch_client=client, index_name=INDEX_NAME)
     os.remove(tmp_path)
     return {"filename": file.filename}
+
+@app.post("/chats/")
+def generate_rag_answer(body: ChatRequest):
+    user_question = body.content
+    chat_model = OpenAIChatModel()
+    chat_service = ChatService(chat_model)
+
+    keywords_from_user_question = chat_service.get_keywords(text=user_question)
+    search_result = search_index(index_name=INDEX_NAME, keywords=keywords_from_user_question)
+    context = search_result[0]["_source"]["content"]
+    rag_answer = chat_service.generate_answer(messages=[Message(role="user", content=user_question)], contexts=context)
+
+    return rag_answer
