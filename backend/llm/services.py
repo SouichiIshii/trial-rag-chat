@@ -29,5 +29,24 @@ class ChatService:
         result = json.loads(tmp.content)["keywords"]
         return result
 
-    def generate_answer(self, message):
-        pass
+    def generate_answer(self, messages: list[Message], contexts: list[str]) -> str:
+        if not contexts:
+            return "関連するファイルを見つけられませんでした。"
+        
+        question = messages[-1].content
+        contexts_ = "\n\n".join(contexts)
+
+        base_prompt = """
+        Answer question using the following pieces of retrieved context.
+        Use up to three sentences to answer.
+        You should answer in Japanese.
+
+        <Question>
+        {}
+
+        <Contexts>
+        {}
+        """
+        prompt = base_prompt.format(question, contexts_)
+
+        return self.get_chat(messages=[Message(role="user", content=prompt)]).content
