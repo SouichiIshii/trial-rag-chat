@@ -1,7 +1,7 @@
 import json
 
-from interfaces import Message, ChatModel
-from models import OpenAIChatModel
+from backend.llm.interfaces import ChatModel
+from backend.llm.models import OpenAIChatModel
 from schemas import Message
 
 class ChatService:

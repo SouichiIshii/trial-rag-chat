@@ -3,7 +3,7 @@ from typing import Literal
 import requests
 from pydantic import BaseModel
 
-from interfaces import ChatModel
+from backend.llm.interfaces import ChatModel
 from config import OPENAI_API_KEY, OPENAI_CHAT_ENDPOINT
 from schemas import Message
 
