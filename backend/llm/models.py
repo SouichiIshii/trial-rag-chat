@@ -36,7 +36,7 @@ class OpenAIChatModel(ChatModel):
         return content_.model_dump()
 
     def _format_return(self, response):
-        return response.json()["choices"][0]["message"]
+        return Message(**response.json()["choices"][0]["message"])
 
     class ContentForm(BaseModel):
         messages: list[Message]
