@@ -14,7 +14,7 @@ def search_index(index_name: str, keywords: list[str]) -> list[dict]:
                 "should": [
                     {"match": {"content": " ".join(keywords)}}
                 ],
-                "minumum_should_match": 1
+                "minimum_should_match": 1
             }
         }
     }
