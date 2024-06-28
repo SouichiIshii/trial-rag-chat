@@ -1,4 +1,5 @@
 import json
+import re
 
 from backend.llm.interfaces import ChatModel
 from backend.llm.models import OpenAIChatModel
@@ -14,7 +15,7 @@ class ChatService:
     def get_keywords(self, text: str) -> list[str]:
         prompt = """
         Extract important keyword from the text you'll be given.
-        Return response as JSON like below.
+        Return response in JSON format like below.
         {"keywords": ["financial", "fiscal year", "football"]}
 
         Text is below.
@@ -25,8 +26,10 @@ class ChatService:
         ### JSON
         """
 
-        tmp = self.get_chat(messages=[Message(role="user", content=prompt)])
-        result = json.loads(tmp.content)["keywords"]
+        res = self.get_chat(messages=[Message(role="user", content=prompt)])
+        res_content = re.search(r'\{\s*"keywords": \[[^\]]*\]*\}', res.content)
+        content = res_content.group(0)
+        result = json.loads(content)["keywords"]
         return result
 
     def generate_answer(self, messages: list[Message], contexts: list[str]) -> str:
