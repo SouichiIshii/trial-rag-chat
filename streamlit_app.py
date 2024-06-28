@@ -24,11 +24,15 @@ def ai_chat_page():
     user_question = st.text_input("質問を入力してください。")
 
     if st.button("AIに質問する"):
-        # ここでチャットロジックを実装
         st.write(f"ユーザー: {user_question}")
+        data = {"content": user_question}
+        response = requests.post(
+            url="http://localhost:8000/chats/",
+            json=data
+        )
+        response_from_ai = response.json()
 
-        # 仮の回答
-        st.write(f"AI: 何かお手伝いできることはありますか？")
+        st.write(f"AI: {response_from_ai}")
 
 def document_registration_page():
     st.title("資料登録")
