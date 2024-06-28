@@ -14,7 +14,7 @@ class ChatService:
     def get_keywords(self, text: str) -> list[str]:
         prompt = """
         Extract important keyword from the text you'll be given.
-        Return response as JSON as below.
+        Return response as JSON like below.
         {"keywords": ["financial", "fiscal year", "football"]}
 
         Text is below.
