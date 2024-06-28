@@ -1,0 +1,5 @@
+streamlit
+fastapi
+opensearch-py
+python-dotenv
+requests
