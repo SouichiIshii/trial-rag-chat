@@ -14,8 +14,8 @@ class ChatService:
 
     def get_keywords(self, text: str) -> list[str]:
         prompt = """
-        Extract important keyword from the text you'll be given.
-        Return response in JSON format like below.
+        Extract important keywords from the text you'll be given.
+        Return response in JSON format like below example.
         {"keywords": ["financial", "fiscal year", "football"]}
 
         Text is below.
@@ -42,6 +42,7 @@ class ChatService:
         base_prompt = """
         Answer question using the following pieces of retrieved context.
         Use up to three sentences to answer.
+        If you don't know the answer, just say you don't know.
         You should answer in Japanese.
 
         <Question>
